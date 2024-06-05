@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 
 // #define TAM_NOME 50
 #define TAM_CHAMADA_SENHA 5
@@ -9,6 +10,8 @@
 #define CODIGO_CONTA "GC"
 #define CODIGO_TRANSF "GT"
 #define CODIGO_SALDO "CS"
+
+#define RAND_MAX 999999999999
 
 void limpabuffer(){
     fflush(stdin);
@@ -24,6 +27,12 @@ typedef struct No{
     char senha[TAM_CHAMADA_SENHA];
     struct No* prox;
 } No;
+
+struct Contas{      
+    char titular[50];
+    char id_conta[13];
+    char senha[6]; 
+}contas;
 
 int cont_pr = 0;
 int cont_gc = 0;
@@ -194,6 +203,68 @@ void verificaCodigo(char *senha, char *codigoServico) {
     codigoServico[2] = '\0';
 }
 
+char* encrypt(char senha[]){
+    int senha_num = atoi(senha);
+
+    senha_num = senha_num - 60 * 43 / sqrt(13);
+
+    itoa(senha_num, senha, 10);
+
+    return senha;
+}
+
+void abrirConta(char nome_arq[], Contas contas){
+
+    printf("Insira o nome do titular: ");
+    scanf("%[^\n]s", contas.titular);
+    limpabuffer();
+    printf("Insira a senha da conta: ");
+    scanf("%[^\n]s", contas.senha);
+    limpabuffer();
+
+    strcpy(contas.senha, encrypt(contas.senha));
+
+    int aux = 100000000000 + rand();
+    itoa(aux, contas.id_conta, 10);
+
+    FILE *fp= fopen(nome_arq, "r");
+    if (fp == NULL){                     // Se não conseguir ler o arquivo (se o arquivo não está no local inforomado)
+        fp = fopen(nome_arq,"w+");
+        fprintf(fp,"%s,",contas.titular);
+        fprintf(fp," %s,",contas.id_conta);
+        fprintf(fp," %s\n",contas.senha);
+        fclose(fp);// sai do programa
+    }
+    else{
+        fclose(fp);
+        fp = fopen(nome_arq,"a+");
+        fprintf(fp,"%s,",contas.titular);
+        fprintf(fp," %s,",contas.id_conta);
+        fprintf(fp," %s,",contas.senha);
+        fclose(fp);// sai do programa
+    }
+}
+
+void encerrarConta(){
+
+}
+
+void gerenciarConta(){
+    int op;
+    do{
+        printf("1. Abrir conta\n2. Encerrar conta");
+        scanf("%d", &op);
+        limpabuffer();
+        if(op != 1 && op != 2){
+            printf("Por favor, insira uma opcao valida");
+            pause();
+        }
+    }while(op != 1 && op != 2);
+
+    if(op == 1) abrirConta("contas.txt", contas);
+    if(op == 2) encerrarConta();
+}
+
 void atendimento(No **senhas) {
     if (*senhas == NULL) {
         printf("Nenhuma senha para atender.\n");
@@ -208,7 +279,7 @@ void atendimento(No **senhas) {
     *senhas = excluir_senha(*senhas, p->senha, 2);
 
     if(strcmp(codigoServico, CODIGO_CONTA) == 0){
-
+        gerenciarConta();
     }
     else if(strcmp(codigoServico, CODIGO_SALDO) == 0){
 
