@@ -6,7 +6,7 @@ Repositorio destinado a salvar e fazer controle de versões do projeto final do 
 Orientações:
     Criar um sistema de atendimento e controle de senhas para um banco.
 
-Exigências 
+Exigências: 
     -Utilizar estrutura de dados na confecção do código.
     -Lista, fila ou pilha 
     -Recursividade
@@ -14,13 +14,13 @@ Exigências
 
 OBS:. O uso de todas as exigências não caracteriza pontuação máxima. Haverá analise de criteriosa sobre semântica da estrutura apresentada.
 
-Menu  
+Menu:  
     -Gerar Senha - [Senha específica para tipo de operação]
     -Atendimento 
     -Controle de senha
     -Exclusão de senha
 
-Serviços 
+Serviços: 
     -Abertura/Encerramento  de conta
     -Transferências
     -Saldo
