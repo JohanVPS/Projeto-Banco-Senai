@@ -232,7 +232,7 @@ void abrirConta(char nome_arq[], Contas contas){
     scanf("%f", &contas.saldo);
     limpabuffer();
 
-    int aux = rand(), digito = rand() % 10;
+    int aux = rand() %1000000, digito = rand() % 10;
 
     snprintf(contas.id, TAM_ID, "%06d-%d", aux, digito);
 
