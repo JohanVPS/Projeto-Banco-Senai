@@ -215,7 +215,6 @@ No* excluir_senha(No* ini, char code[]) {
     return ini;
 }
 
-
 int main(){
     No* senhas = NULL;
     int op, op_serv;

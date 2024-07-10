@@ -235,6 +235,8 @@ void abrirConta(char nome_arq[], Contas contas){
     int aux = rand() % 1000000, digito = rand() % 10;
 
     snprintf(contas.id, TAM_ID, "%06d-%d", aux, digito);
+    printf("O numero da sua conta e: %s", contas.id);
+    pause();
 
     FILE *fp= fopen(nome_arq, "r");
     if (fp == NULL){                     // Se não conseguir ler o arquivo (se o arquivo não está no local inforomado)
@@ -266,7 +268,7 @@ void encerrarConta(char nome_arq[], struct Contas contas){
 
     // Obtendo os dados do usuário
     do{
-        printf("Insira o numero da conta que deseja encerrar, sem espacos\n>");
+        printf("Insira o numero da conta que deseja encerrar (xxxxxx-x)\n>");
         scanf("%s", auxiliar);
         limpabuffer();
     }while(strlen(auxiliar) > TAM_ID);
@@ -303,6 +305,7 @@ void encerrarConta(char nome_arq[], struct Contas contas){
 
     // Lendo e processando o arquivo original
     while (fscanf(fp, "%[^,], %[^,], %[^,], %f\n", teste_id, teste_titular, teste_senha, &teste_saldo) != EOF) {
+        printf("id: %s, titular: %s, senha: %s, saldo: %f", teste_id, teste_titular, teste_senha, teste_saldo);
         fscanf(fp, "%[^\n]s\n", auxiliar);
         // Comparando os dados lidos com os dados fornecidos pelo usuário
         if (strcmp(teste_id, contas.id) == 0 && strcmp(teste_senha, contas.senha) == 0) {
